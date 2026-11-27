@@ -22,7 +22,7 @@ jobs:
     env:
       FORESTSTORE_API: https://adminapi.foreststore.co
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # If the site is built by a tool, build it here so the folder that foreststore.json's "output" names exists:
       # - run: npm ci && npm run build

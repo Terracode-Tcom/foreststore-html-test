@@ -14,13 +14,10 @@
         <h1 data-fsd-text="product.name">Product name</h1>
         <p class="price" data-fsd-text="product.price" data-fsd-format="money" data-fs-product-price>LKR 0.00</p>
         <div data-fsd-text="product.description" data-fsd-format="richtext">Description</div>
-        <fieldset>
-          <legend>Choose</legend>
-          <label data-fsd-each="product.variants as v">
-            <input type="radio" name="variant" data-fsd-attr="value:v.id">
-            <span data-fsd-text="v.name">Variant</span>
-          </label>
-        </fieldset>
+        <label for="variant">Choose</label>
+        <select id="variant" data-fs-variant>
+          <option data-fsd-each="product.variants as v" data-fsd-attr="value:v.id" data-fsd-text="v.name">Variant</option>
+        </select>
         <p data-fsd-unless="product.in_stock">Sold out</p>
         <button type="button" data-fsd-if="product.in_stock" data-fs-add-to-cart>Add to cart</button>
       </div>

@@ -54,7 +54,9 @@ when the file is opened directly: the platform replaces it.
 *   Leave checkout and sign-in to the platform: no `<base>`, refresh meta, password
     field, link to `/ca/account` or `/ca/checkout`, or reference to
     `/__foreststore/`. Use `data-fs-account` and `data-fs-checkout`, and
-    `data-fs-add-to-cart` and `data-fs-cart-count` for the cart.
+    `data-fs-add-to-cart` and `data-fs-cart-count` for the cart. The chosen
+    variant comes from a `<select data-fs-variant>` whose option values are
+    variant ids (as in the starter's product page).
 
 `check html` reports every other rule with file and line.
 

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <fs-include name="header"></fs-include>
+  <main>
+    <h1>Your cart</h1>
+    <div data-fs-cart-page-items></div>
+    <p data-fs-cart-page-empty hidden>Your cart is empty.</p>
+    <p>Subtotal: <span data-fs-cart-page-subtotal></span></p>
+    <button type="button" data-fs-checkout>Checkout</button>
+  </main>
+  <fs-include name="footer"></fs-include>
+</body>
+</html>

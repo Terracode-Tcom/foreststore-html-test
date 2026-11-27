@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <fs-include name="header"></fs-include>
+  <main>
+    <h1 data-fsd-text="collection.name">Collection</h1>
+    <ul class="grid">
+      <li data-fsd-each="products.data as p">
+        <a data-fsd-href="/products/{p.slug}">
+          <img data-fsd-if="p.thumbnail" data-fsd-attr="src:p.thumbnail.url; alt:p.thumbnail.alt" data-fsd-image="400" src="" alt="">
+          <span data-fsd-text="p.name">Product name</span>
+          <strong data-fsd-text="p.price" data-fsd-format="money">LKR 0.00</strong>
+        </a>
+      </li>
+    </ul>
+    <p data-fsd-unless="products.data">Nothing here yet.</p>
+  </main>
+  <fs-include name="footer"></fs-include>
+</body>
+</html>

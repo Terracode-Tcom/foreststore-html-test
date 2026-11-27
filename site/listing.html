@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <fs-include name="header"></fs-include>
+  <main>
+    <h1>Collections</h1>
+    <ul>
+      <li data-fsd-each="collections.data as c"><a data-fsd-href="/collections/{c.slug}" data-fsd-text="c.name">Collection</a></li>
+    </ul>
+  </main>
+  <fs-include name="footer"></fs-include>
+</body>
+</html>

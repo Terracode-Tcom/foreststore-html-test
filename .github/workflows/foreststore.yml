@@ -1,0 +1,52 @@
+# Publishes this site to its Foreststore shop on every push to the branch connected in Foreststore.
+# Foreststore checks GitHub's own token for this repository and branch, so this file holds no secret.
+# Docs: docs/html-sites.md of foreststore-template-kit ("Deploy from GitHub").
+name: Foreststore deploy
+
+on:
+  push:
+    branches: [main] # the branch connected in Foreststore
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # GitHub's token, audience "foreststore", is the only credential
+
+concurrency:
+  group: foreststore-deploy # one deploy at a time; a newer push waits for the running one
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FORESTSTORE_API: https://adminapi.foreststore.co
+    steps:
+      - uses: actions/checkout@v4
+
+      # If the site is built by a tool, build it here so the folder that foreststore.json's "output" names exists:
+      # - run: npm ci && npm run build
+
+      - name: Package the site
+        run: |
+          out=$(jq -r '.output // "."' foreststore.json)
+          if [ "$out" = "." ]; then
+            zip -qr site.zip . -x '.*' -x '*/.*' -x 'node_modules/*' -x 'site.zip'
+          else
+            [ -d "$out" ] || { echo "::error::the output folder '$out' does not exist; build the site first"; exit 1; }
+            zip -qr site.zip foreststore.json "$out" -x '*/.*'
+          fi
+          echo "$(unzip -Z1 site.zip | grep -vc '/$') files, $(du -h site.zip | cut -f1)"
+
+      - name: Deploy
+        run: |
+          token=$(curl -sSf -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=foreststore" | jq -r .value)
+          code=$(curl -sS --max-time 240 -o answer.json -w '%{http_code}' -X POST "$FORESTSTORE_API/storefront/code/deploy" \
+            -H "Authorization: Bearer $token" -H 'Content-Type: application/zip' --data-binary @site.zip)
+          jq . answer.json 2>/dev/null || cat answer.json
+          outcome=$(jq -r '.outcome // empty' answer.json 2>/dev/null)
+          case "$code:$outcome" in
+            200:live) echo "Live: $(jq -r .version answer.json)" ;;
+            202:waiting) echo "::warning::Published; Foreststore is still bringing it live: $(jq -r .reason answer.json)" ;;
+            *) echo "::error::$(jq -r '.reason // "the deploy failed"' answer.json 2>/dev/null || echo "HTTP $code")"; exit 1 ;;
+          esac

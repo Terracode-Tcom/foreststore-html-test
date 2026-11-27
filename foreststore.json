@@ -1,0 +1,122 @@
+{
+  "runtime": "html-v1",
+  "output": "site",
+  "partials": {
+    "header": "partials/header.html",
+    "footer": "partials/footer.html"
+  },
+  "pages": {
+    "index": {
+      "file": "index.html",
+      "queries": [
+        {
+          "key": "featured",
+          "type": "product_list",
+          "params": {
+            "limit": 8
+          }
+        },
+        {
+          "key": "collections",
+          "type": "collection_list",
+          "params": {
+            "limit": 6
+          }
+        }
+      ]
+    },
+    "product": {
+      "file": "product.html",
+      "queries": [
+        {
+          "key": "product",
+          "type": "product_detail",
+          "params": {
+            "slug": "$url.slug"
+          },
+          "include": [
+            "media",
+            "variants"
+          ]
+        },
+        {
+          "key": "related",
+          "type": "related_products",
+          "params": {
+            "slug": "$url.slug",
+            "limit": 4
+          }
+        }
+      ],
+      "expose": [
+        "product.variants"
+      ]
+    },
+    "collection": {
+      "file": "collection.html",
+      "queries": [
+        {
+          "key": "collection",
+          "type": "collection_detail",
+          "params": {
+            "slug": "$url.slug"
+          }
+        },
+        {
+          "key": "products",
+          "type": "product_list",
+          "params": {
+            "collection": "$url.slug",
+            "page": "$url.page",
+            "per_page": 12
+          }
+        }
+      ]
+    },
+    "listing": {
+      "file": "listing.html",
+      "queries": [
+        {
+          "key": "collections",
+          "type": "collection_list",
+          "params": {
+            "limit": 48
+          }
+        }
+      ]
+    },
+    "search": {
+      "file": "search.html",
+      "queries": [
+        {
+          "key": "results",
+          "type": "product_list",
+          "params": {
+            "search": "$url.q",
+            "page": "$url.page",
+            "per_page": 12
+          }
+        }
+      ]
+    },
+    "cart": {
+      "file": "cart.html"
+    },
+    "page": {
+      "file": "legal.html"
+    },
+    "404": {
+      "file": "404.html"
+    }
+  },
+  "routes": [
+    {
+      "path": "/about",
+      "file": "about.html",
+      "seo": {
+        "title": "About us",
+        "description": "Who we are."
+      }
+    }
+  ]
+}

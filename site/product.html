@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <fs-include name="header"></fs-include>
+  <main>
+    <article class="product">
+      <img data-fsd-if="product.media.0" data-fsd-attr="src:product.media.0.url; alt:product.media.0.alt" data-fsd-image="800" data-fs-product-image src="" alt="">
+      <div>
+        <h1 data-fsd-text="product.name">Product name</h1>
+        <p class="price" data-fsd-text="product.price" data-fsd-format="money" data-fs-product-price>LKR 0.00</p>
+        <div data-fsd-text="product.description" data-fsd-format="richtext">Description</div>
+        <fieldset>
+          <legend>Choose</legend>
+          <label data-fsd-each="product.variants as v">
+            <input type="radio" name="variant" data-fsd-attr="value:v.id">
+            <span data-fsd-text="v.name">Variant</span>
+          </label>
+        </fieldset>
+        <p data-fsd-unless="product.in_stock">Sold out</p>
+        <button type="button" data-fsd-if="product.in_stock" data-fs-add-to-cart>Add to cart</button>
+      </div>
+    </article>
+    <h2>You may also like</h2>
+    <ul class="grid">
+      <li data-fsd-each="related.data as p">
+        <a data-fsd-href="/products/{p.slug}">
+          <img data-fsd-if="p.thumbnail" data-fsd-attr="src:p.thumbnail.url; alt:p.thumbnail.alt" data-fsd-image="400" src="" alt="">
+          <span data-fsd-text="p.name">Product name</span>
+          <strong data-fsd-text="p.price" data-fsd-format="money">LKR 0.00</strong>
+        </a>
+      </li>
+    </ul>
+  </main>
+  <fs-include name="footer"></fs-include>
+</body>
+</html>
